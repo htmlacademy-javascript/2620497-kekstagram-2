@@ -24,3 +24,7 @@ function extractAllNumbers(stringToCheck){
   }
   return parseInt(localStringToCheck, 10);
 }
+
+checkingStringLength('123412354', 20);
+checkStringPalindrome('Лёша на полке клопа нашёл ');
+extractAllNumbers('45sdfgsdf56hg4sh654sdhfs5d4hsdh45s4dfg8h2.1dfa');
