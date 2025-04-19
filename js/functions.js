@@ -22,9 +22,12 @@ function extractAllNumbers(stringToCheck){
       localStringToCheck = localStringToCheck + stringToCheck[i];
     }
   }
-  return parseInt(localStringToCheck, 10);
+  if (localStringToCheck !== '') {
+    return parseInt(localStringToCheck, 10);
+  }
+  return NaN;
 }
 
 checkingStringLength('123412354', 20);
 checkStringPalindrome('Лёша на полке клопа нашёл ');
-extractAllNumbers('45sdfgsdf56hg4sh654sdhfs5d4hsdh45s4dfg8h2.1dfa');
+extractAllNumbers('sdfsdfsdf');
