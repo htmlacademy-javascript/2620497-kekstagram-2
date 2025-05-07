@@ -31,6 +31,11 @@ const MESSAGES = [
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
 ];
 
+const MAX_PHOTO_COMMENTS = 30;
+const MAX_NUMBER_PUBLISHED_PHOTOS = 25;
+const MIN_NUMBER_LIKES = 15;
+const MAX_NUMBER_LIKES = 200;
+
 const getRandomInteger = (min, max) => {
   const lower = Math.ceil(Math.min(min, max));
   const upper = Math.floor(Math.max(min, max));
@@ -60,10 +65,10 @@ const createPhoto = (index) => ({
   id: index,
   url: `photos/${index}.jpg`,
   description: getRandomArrayElement(DESCRIPTION),
-  likes: getRandomInteger(15, 200),
-  comments: Array.from({ length: getRandomInteger(0, 30) }, createComment),
+  likes: getRandomInteger(MIN_NUMBER_LIKES, MAX_NUMBER_LIKES),
+  comments: Array.from({ length: getRandomInteger(0, MAX_PHOTO_COMMENTS) }, createComment),
 });
 
-const createPhotos = () => Array.from({ length: 25 }, (_, index) => createPhoto(index + 1));
+const createPhotos = () => Array.from({ length: MAX_NUMBER_PUBLISHED_PHOTOS }, (_, index) => createPhoto(index + 1));
 
 createPhotos();
