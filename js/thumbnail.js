@@ -11,7 +11,6 @@ export const renderThumbnails = () => {
 
   photoDescriptions.forEach(({id, url, description, likes, comments}) => {
     const thumbnail = templateContent.cloneNode(true);
-    thumbnail.dataset.photoId = id;
     const image = thumbnail.querySelector('.picture__img');
     const contentLikes = thumbnail.querySelector('.picture__likes');
     const contentCommentsLength = thumbnail.querySelector('.picture__comments');

@@ -44,7 +44,6 @@ const onDocumentKeydown = (evt) => {
   }
 };
 
-
 const renderComments = () => {
   const commentsToShow = Math.min(displayedComments + PHOTO_COMMENTS_ADD,
     currentComments.length);
@@ -89,6 +88,7 @@ function closefullPhoto() {
   fullPhoto.classList.add('hidden');
   body.classList.remove('modal-open');
 
+
   currentComments = [];
   displayedComments = 0;
 
@@ -109,12 +109,14 @@ const onThumbnailClick = (evt) => {
   const thumbnailPhotoId = thumbnail.dataset.photoId;
   const photoData = photoDescriptions.find((photo) => photo.id === Number(thumbnailPhotoId));
 
+
   if (photoData) {
     openfullPhoto(photoData);
   }
 };
 
 const initFullPhoto = () => {
+
   pictures.addEventListener('click', onThumbnailClick);
   fullPhotoCloseBtn.addEventListener('click', closefullPhoto);
 };
