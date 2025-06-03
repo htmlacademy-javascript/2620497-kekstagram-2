@@ -2,7 +2,7 @@ import {photoDescriptions} from './thumbnail.js';
 import {PHOTO_COMMENTS_ADD} from './constants.js';
 import {isEscapeKey} from './utils.js';
 
-const pictures = document.querySelector('.pictures')
+const pictures = document.querySelector('.pictures');
 const fullPhoto = document.querySelector('.big-picture');
 const fullPhotoCloseBtn = fullPhoto.querySelector('.big-picture__cancel');
 const body = document.querySelector('body');
