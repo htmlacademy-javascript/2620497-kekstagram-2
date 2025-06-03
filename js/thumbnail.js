@@ -1,6 +1,6 @@
 import {createPhotos} from './data.js';
 
-let photoDescriptions = [];
+export let photoDescriptions = [];
 
 export const renderThumbnails = () => {
   const template = document.querySelector('#picture').content;

@@ -5,7 +5,7 @@ import { MESSAGES,
   MAX_PHOTO_COMMENTS,
   MIN_NUMBER_LIKES,
   MAX_NUMBER_LIKES,
-  MAX_NUMBER_PUBLISHED_PHOTOS } from './constants.js';
+  MAX_NUMBER_PUBLISHED_PHOTOS} from './constants.js';
 
 const getCommentId = getId();
 

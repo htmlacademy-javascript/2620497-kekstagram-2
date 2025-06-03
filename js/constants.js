@@ -35,3 +35,4 @@ export const MAX_PHOTO_COMMENTS = 30;
 export const MAX_NUMBER_PUBLISHED_PHOTOS = 25;
 export const MIN_NUMBER_LIKES = 15;
 export const MAX_NUMBER_LIKES = 200;
+export const PHOTO_COMMENTS_ADD = 5;

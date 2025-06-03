@@ -1,17 +1,21 @@
-import {getPhotoDescriptions} from './thumbnail.js';
+import {photoDescriptions} from './thumbnail.js';
+import {PHOTO_COMMENTS_ADD} from './constants.js';
+import {isEscapeKey} from './utils.js';
 
-const isEscapeKey = (evt) => evt.key === 'Escape';
+const pictures = document.querySelector('.pictures');
 const fullPhoto = document.querySelector('.big-picture');
-const fullPhotoCancel = fullPhoto.querySelector('.big-picture__cancel');
+const fullPhotoCloseBtn = fullPhoto.querySelector('.big-picture__cancel');
 const body = document.querySelector('body');
 const socialComments = fullPhoto.querySelector('.social__comments');
 const shownComments = fullPhoto.querySelector('.social__comment-shown-count');
 const commentsCount = fullPhoto.querySelector('.social__comment-total-count');
-const socialCommentCount = fullPhoto.querySelector('.social__comment-count');
 const commentsLoader = fullPhoto.querySelector('.comments-loader');
 const fullPhotoImg = fullPhoto.querySelector('.big-picture__img img');
 const socialCaption = fullPhoto.querySelector('.social__caption');
 const likesCount = fullPhoto.querySelector('.likes-count');
+
+let currentComments = [];
+let displayedComments = 0;
 
 const getCommentElement = ({avatar, name, message}) => {
   const comment = document.createElement('li');
@@ -40,22 +44,23 @@ const onDocumentKeydown = (evt) => {
   }
 };
 
-const renderComments = (comments) => {
-  const maxComments = comments.length;
+const renderComments = () => {
+  const commentsToShow = Math.min(displayedComments + PHOTO_COMMENTS_ADD,
+    currentComments.length);
 
-  socialComments.innerHTML = '';
-  const fragment = document.createDocumentFragment();
-  comments.forEach((comment) => {
-    fragment.append(getCommentElement(comment));
-  });
+  for (let i = displayedComments; i < commentsToShow; i++) {
+    socialComments.appendChild(getCommentElement(currentComments[i]));
+  }
 
-  socialComments.append(fragment);
+  displayedComments = commentsToShow;
+  shownComments.textContent = displayedComments;
+  commentsCount.textContent = currentComments.length;
 
-  shownComments.textContent = maxComments;
-  commentsCount.textContent = maxComments;
+  commentsLoader.classList.toggle('hidden', displayedComments >= currentComments.length);
+};
 
-  socialCommentCount.classList.add('hidden');
-  commentsLoader.classList.add('hidden');
+const loadMoreComments = () => {
+  renderComments();
 };
 
 const openfullPhoto = (photo) => {
@@ -65,19 +70,31 @@ const openfullPhoto = (photo) => {
   socialCaption.textContent = photo.description;
   likesCount.textContent = photo.likes;
 
-  renderComments(photo.comments);
+  currentComments = photo.comments;
+  displayedComments = 0;
+  socialComments.innerHTML = '';
+  commentsLoader.classList.remove('hidden');
+
+  renderComments();
 
   fullPhoto.classList.remove('hidden');
   body.classList.add('modal-open');
 
   document.addEventListener('keydown', onDocumentKeydown);
+  commentsLoader.addEventListener('click', loadMoreComments);
 };
 
 function closefullPhoto() {
   fullPhoto.classList.add('hidden');
   body.classList.remove('modal-open');
 
+
+  currentComments = [];
+  displayedComments = 0;
+
+
   document.removeEventListener('keydown', onDocumentKeydown);
+  commentsLoader.removeEventListener('click', loadMoreComments);
 }
 
 const onThumbnailClick = (evt) => {
@@ -90,7 +107,8 @@ const onThumbnailClick = (evt) => {
   evt.preventDefault();
 
   const thumbnailPhotoId = thumbnail.dataset.photoId;
-  const photoData = getPhotoDescriptions().find((photo) => photo.id === Number(thumbnailPhotoId));
+  const photoData = photoDescriptions.find((photo) => photo.id === Number(thumbnailPhotoId));
+
 
   if (photoData) {
     openfullPhoto(photoData);
@@ -98,9 +116,9 @@ const onThumbnailClick = (evt) => {
 };
 
 const initFullPhoto = () => {
-  document.querySelector('.pictures')
-    .addEventListener('click', onThumbnailClick);
-  fullPhotoCancel.addEventListener('click', closefullPhoto);
+
+  pictures.addEventListener('click', onThumbnailClick);
+  fullPhotoCloseBtn.addEventListener('click', closefullPhoto);
 };
 
 export {initFullPhoto};
