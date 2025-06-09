@@ -47,13 +47,6 @@ const checkDuplicateHashtags = (value) => {
 const validateComment = (value) =>
   !value || value.length <= MAX_UPLOAD_FORM_COMMENT_LENGTH;
 
-const toggleKeydownListener = function(enable) {
-  document[enable ? 'addEventListener' : 'removeEventListener'](
-    'keydown',
-    onDocumentKeydown
-  );
-};
-
 const initValidation = () => {
   const pristine = new Pristine(form, {
     classTo: 'img-upload__field-wrapper',
