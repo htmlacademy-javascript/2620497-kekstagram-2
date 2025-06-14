@@ -1,16 +1,17 @@
-
 import {
   MAX_UPLOAD_FORM_COMMENT_LENGTH,
   MAX_HASHTAGS,
   HASHTAG_REGEX,
   UploadFormErrorMessage
 } from './constants.js';
-import { onDocumentKeydown } from './upload-photo-form.js';
-import { isTextField } from './utils.js';
+import { onDocumentKeydown, closePhotoEditor} from './upload-photo-form.js';
+import { isTextField, isEscapeKey} from './utils.js';
+import { sendData } from './api.js';
 
 const form = document.querySelector('.img-upload__form');
 const hashtagInput = form.querySelector('.text__hashtags');
 const commentInput = form.querySelector('.text__description');
+const submitButton = form.querySelector('.img-upload__submit');
 
 const normalizeHashtags = (value) =>
   value.trim() ? value.trim().split(/\s+/).filter(Boolean) : [];
@@ -44,8 +45,51 @@ const checkDuplicateHashtags = (value) => {
   return uniqueHashtags.size === hashtags.length;
 };
 
+const showSuccessMessage = () => {
+  const template = document.querySelector('#success').content.querySelector('.success');
+  const message = template.cloneNode(true);
+  document.body.appendChild(message);
+
+  const successButton = message.querySelector('.success__button');
+  successButton.addEventListener('click', () => message.remove());
+
+  document.addEventListener('keydown', (evt) => {
+    if (isEscapeKey(evt)) {
+      message.remove();
+    }
+  }, { once: true });
+
+  document.addEventListener('click', (evt) => {
+    if (!evt.target.closest('.success__inner')) {
+      message.remove();
+    }
+  }, { once: true });
+};
+
 const validateComment = (value) =>
   !value || value.length <= MAX_UPLOAD_FORM_COMMENT_LENGTH;
+
+const showErrorMessage = () => {
+  const template = document.querySelector('#error').content.querySelector('.error');
+  const message = template.cloneNode(true);
+  document.body.appendChild(message);
+
+  const errorButton = message.querySelector('.error__button');
+  errorButton.addEventListener('click', () => message.remove());
+
+  document.addEventListener('keydown', (evt) => {
+    if (isEscapeKey(evt)) {
+      message.remove();
+    }
+  }, { once: true });
+
+  document.addEventListener('click', (evt) => {
+    if (!evt.target.closest('.error__inner')) {
+      message.remove();
+    }
+  }, { once: true });
+};
+
 
 const initValidation = () => {
   const pristine = new Pristine(form, {
@@ -87,11 +131,6 @@ const initValidation = () => {
     true
   );
 
-  // [hashtagInput, commentInput].forEach((input) => {
-  //   input.addEventListener('focus', toggleKeydownListener.bind(null, false));
-  //   input.addEventListener('blur', toggleKeydownListener.bind(null, true));
-  // });
-
   form.addEventListener('focus', (evt) => {
     if (isTextField(evt.target)) {
       document.removeEventListener('keydown', onDocumentKeydown);
@@ -105,13 +144,26 @@ const initValidation = () => {
     }
   }, true);
 
-  const onFormSubmit = (evt) => {
-    if (!pristine.validate()) {
-      evt.preventDefault();
-    }
-  };
+  form.addEventListener('submit', async (evt) => {
+    evt.preventDefault();
 
-  form.addEventListener('submit', onFormSubmit);
+    if (!pristine.validate()) {
+      return;
+    }
+
+    submitButton.disabled = true;
+    try {
+      const formData = new FormData(form);
+      await sendData(formData);
+      closePhotoEditor();
+      showSuccessMessage();
+    } catch (error) {
+      showErrorMessage();
+    } finally {
+      submitButton.disabled = false;
+    }
+
+  });
 };
 
 export { initValidation };

@@ -61,3 +61,5 @@ export const UploadFormErrorMessage = {
   MAX_UPLOAD_FORM_COMMENT_LENGTH: `Длина комментария не больше ${MAX_UPLOAD_FORM_COMMENT_LENGTH} символов`,
 };
 
+export const BASE_URL = 'https://31.javascript.htmlacademy.pro/kekstagram';
+export const TIMEOUT = 5000;

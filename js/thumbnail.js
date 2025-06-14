@@ -1,12 +1,7 @@
-import {createPhotos} from './data.js';
-
-export let photoDescriptions = [];
-
-export const renderThumbnails = () => {
+export const renderThumbnails = (photoDescriptions) => {
   const template = document.querySelector('#picture').content;
   const templateContent = template.querySelector('.picture');
   const pictures = document.querySelector('.pictures');
-  photoDescriptions = createPhotos();
   const photoFragment = document.createDocumentFragment();
 
   photoDescriptions.forEach(({id, url, description, likes, comments}) => {
@@ -25,5 +20,3 @@ export const renderThumbnails = () => {
 
   pictures.appendChild(photoFragment);
 };
-
-export const getPhotoDescriptions = () => photoDescriptions;
