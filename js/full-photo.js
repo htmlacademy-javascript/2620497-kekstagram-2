@@ -1,5 +1,5 @@
-import {photoDescriptions} from './thumbnail.js';
 import {PHOTO_COMMENTS_ADD} from './constants.js';
+
 import {isEscapeKey} from './utils.js';
 
 const pictures = document.querySelector('.pictures');
@@ -16,6 +16,7 @@ const likesCount = fullPhoto.querySelector('.likes-count');
 
 let currentComments = [];
 let displayedComments = 0;
+let photoDescriptions = [];
 
 const getCommentElement = ({avatar, name, message}) => {
   const comment = document.createElement('li');
@@ -115,7 +116,8 @@ const onThumbnailClick = (evt) => {
   }
 };
 
-const initFullPhoto = () => {
+const initFullPhoto = (photos) => {
+  photoDescriptions = photos;
 
   pictures.addEventListener('click', onThumbnailClick);
   fullPhotoCloseBtn.addEventListener('click', closefullPhoto);
