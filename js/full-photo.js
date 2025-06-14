@@ -1,4 +1,5 @@
 import {PHOTO_COMMENTS_ADD} from './constants.js';
+
 import {isEscapeKey} from './utils.js';
 
 const pictures = document.querySelector('.pictures');
