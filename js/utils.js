@@ -31,3 +31,11 @@ export const showDataErrorMessage = () => {
     message.remove();
   }, TIMEOUT);
 };
+
+export function debounce(callback, timeoutDelay = 500) {
+  let timeoutId;
+  return function() {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback(...arguments), timeoutDelay);
+  };
+}
