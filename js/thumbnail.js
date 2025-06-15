@@ -2,6 +2,7 @@ export const renderThumbnails = (photoDescriptions) => {
   const template = document.querySelector('#picture').content;
   const templateContent = template.querySelector('.picture');
   const pictures = document.querySelector('.pictures');
+  pictures.querySelectorAll('.picture').forEach((element) => element.remove());
   const photoFragment = document.createDocumentFragment();
 
   photoDescriptions.forEach(({id, url, description, likes, comments}) => {
