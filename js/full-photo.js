@@ -110,7 +110,6 @@ const onThumbnailClick = (evt) => {
   const thumbnailPhotoId = thumbnail.dataset.photoId;
   const photoData = photoDescriptions.find((photo) => photo.id === Number(thumbnailPhotoId));
 
-
   if (photoData) {
     openfullPhoto(photoData);
   }
