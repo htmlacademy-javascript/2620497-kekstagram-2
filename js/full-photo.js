@@ -18,6 +18,13 @@ let currentComments = [];
 let displayedComments = 0;
 let photoDescriptions = [];
 
+const onDocumentKeydown = (evt) => {
+  if (isEscapeKey(evt)) {
+    evt.preventDefault();
+    closefullPhoto();
+  }
+};
+
 const getCommentElement = ({avatar, name, message}) => {
   const comment = document.createElement('li');
   comment.classList.add('social__comment');
@@ -36,13 +43,6 @@ const getCommentElement = ({avatar, name, message}) => {
   comment.append(avatarImg, userComment);
 
   return comment;
-};
-
-const onDocumentKeydown = (evt) => {
-  if (isEscapeKey(evt)) {
-    evt.preventDefault();
-    closefullPhoto();
-  }
 };
 
 const renderComments = () => {
@@ -118,7 +118,6 @@ const onThumbnailClick = (evt) => {
 
 const initFullPhoto = (photos) => {
   photoDescriptions = photos;
-
   pictures.addEventListener('click', onThumbnailClick);
   fullPhotoCloseBtn.addEventListener('click', closefullPhoto);
 };
