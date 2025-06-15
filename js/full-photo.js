@@ -120,5 +120,4 @@ const initFullPhoto = (photos) => {
   pictures.addEventListener('click', onThumbnailClick);
   fullPhotoCloseBtn.addEventListener('click', closefullPhoto);
 };
-
 export {initFullPhoto};
