@@ -2,6 +2,7 @@ import {isEscapeKey} from './utils.js';
 import { initScale } from './scale.js';
 import { initEffects, resetEffects } from './effects.js';
 
+
 const uploadInput = document.querySelector('.img-upload__input');
 const uploadOverlay = document.querySelector('.img-upload__overlay');
 const uploadCancel = document.querySelector('.img-upload__cancel');
