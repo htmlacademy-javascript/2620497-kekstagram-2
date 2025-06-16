@@ -43,13 +43,13 @@ const applyEffect = (effect, value) => {
   imagePreview.style.filter = `${filter}(${value}${unit})`;
 };
 
-const handleSliderUpdate = () => {
+const onHandleSliderUpdate = () => {
   const value = sliderElement.noUiSlider.get();
   applyEffect(currentEffect, value);
   effectValue.value = value;
 };
 
-function handleEffectChange(evt) {
+function onHandleEffectChange(evt) {
   if (!evt.target.matches('input[type="radio"]')) {
     return;
   }
@@ -75,8 +75,8 @@ const resetEffects = () => {
 
 const initEffects = () => {
   initSlider();
-  effectsList.addEventListener('change', handleEffectChange);
-  sliderElement.noUiSlider.on('update', handleSliderUpdate);
+  effectsList.addEventListener('change', onHandleEffectChange);
+  sliderElement.noUiSlider.on('update', onHandleSliderUpdate);
   resetEffects();
 };
 

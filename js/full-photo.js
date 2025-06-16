@@ -21,7 +21,7 @@ let photoDescriptions = [];
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
-    closefullPhoto();
+    onclosefullPhoto();
   }
 };
 
@@ -60,7 +60,7 @@ const renderComments = () => {
   commentsLoader.classList.toggle('hidden', displayedComments >= currentComments.length);
 };
 
-const loadMoreComments = () => {
+const onLoadMoreComments = () => {
   renderComments();
 };
 
@@ -82,10 +82,10 @@ const openfullPhoto = (photo) => {
   body.classList.add('modal-open');
 
   document.addEventListener('keydown', onDocumentKeydown);
-  commentsLoader.addEventListener('click', loadMoreComments);
+  commentsLoader.addEventListener('click', onLoadMoreComments);
 };
 
-function closefullPhoto() {
+function onclosefullPhoto() {
   fullPhoto.classList.add('hidden');
   body.classList.remove('modal-open');
 
@@ -95,7 +95,7 @@ function closefullPhoto() {
 
 
   document.removeEventListener('keydown', onDocumentKeydown);
-  commentsLoader.removeEventListener('click', loadMoreComments);
+  commentsLoader.removeEventListener('click', onLoadMoreComments);
 }
 
 const onThumbnailClick = (evt) => {
@@ -118,6 +118,6 @@ const onThumbnailClick = (evt) => {
 const initFullPhoto = (photos) => {
   photoDescriptions = photos;
   pictures.addEventListener('click', onThumbnailClick);
-  fullPhotoCloseBtn.addEventListener('click', closefullPhoto);
+  fullPhotoCloseBtn.addEventListener('click', onclosefullPhoto);
 };
 export {initFullPhoto};

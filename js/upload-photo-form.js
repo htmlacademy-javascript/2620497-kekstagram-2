@@ -14,7 +14,7 @@ let scaleModule = null;
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
-    closePhotoEditor();
+    onClosePhotoEditor();
   }
 };
 
@@ -25,10 +25,10 @@ const openUploadForm = () => {
   initEffects();
 
   document.addEventListener('keydown', onDocumentKeydown);
-  uploadCancel.addEventListener('click', closePhotoEditor);
+  uploadCancel.addEventListener('click', onClosePhotoEditor);
 };
 
-function closePhotoEditor () {
+function onClosePhotoEditor () {
   uploadOverlay.classList.add('hidden');
   body.classList.remove('modal-open');
 
@@ -63,4 +63,4 @@ const inputUploadModal = () => {
   uploadInput.addEventListener('change', onFileInputChange);
 };
 
-export { inputUploadModal, onDocumentKeydown, closePhotoEditor };
+export { inputUploadModal, onDocumentKeydown, onClosePhotoEditor };
