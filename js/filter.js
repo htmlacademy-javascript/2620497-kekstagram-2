@@ -1,10 +1,10 @@
 import {renderThumbnails } from './thumbnail.js';
 import {debounce} from './utils.js';
+import {ACTIVE_BUTTON_CLASS} from './constants.js';
 
 let currentFilter = 'filter-default';
 let pictures = [];
 const filterElement = document.querySelector('.img-filters');
-const ACTIVE_BUTTON_CLASS = 'img-filters__button--active';
 
 const debounceRender = debounce(renderThumbnails);
 

@@ -4,7 +4,7 @@ import {
   HASHTAG_REGEX,
   UploadFormErrorMessage
 } from './constants.js';
-import { onDocumentKeydown, closePhotoEditor} from './upload-photo-form.js';
+import { onDocumentKeydown, onClosePhotoEditor} from './upload-photo-form.js';
 import { isTextField, isEscapeKey} from './utils.js';
 import { sendData } from './api.js';
 
@@ -155,7 +155,7 @@ const initValidation = () => {
     try {
       const formData = new FormData(form);
       await sendData(formData);
-      closePhotoEditor();
+      onClosePhotoEditor();
       showSuccessMessage();
     } catch (error) {
       showErrorMessage();

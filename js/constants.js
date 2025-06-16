@@ -10,7 +10,7 @@ export const NAMES = [
   'Мария',
   'Николай'
 ];
-export const DESCRIPTION = [
+export const DESCRIPTIONS = [
   'Крутая фота',
   'Просто улет',
   'Отвал башки',
@@ -63,3 +63,4 @@ export const UploadFormErrorMessage = {
 
 export const BASE_URL = 'https://31.javascript.htmlacademy.pro/kekstagram';
 export const TIMEOUT = 5000;
+export const ACTIVE_BUTTON_CLASS = 'img-filters__button--active';
