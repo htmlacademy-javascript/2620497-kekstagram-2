@@ -21,10 +21,13 @@ export const isTextField = (element) => (element.tagName === 'INPUT' && element.
 
 export const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
 
+const dataErrorTemplate = document.querySelector('#data-error').content.querySelector('.data-error');
+
 export const showDataErrorMessage = () => {
-  const template = document.querySelector('#data-error')
-    .content.querySelector('.data-error');
-  const message = template.cloneNode(true);
+  // const template = document.querySelector('#data-error')
+  //   .content.querySelector('.data-error');
+  // const message = template.cloneNode(true);
+  const message = dataErrorTemplate.cloneNode(true);
   document.body.appendChild(message);
 
   setTimeout(() => {

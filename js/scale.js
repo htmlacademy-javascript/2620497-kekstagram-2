@@ -13,18 +13,18 @@ export const initScale = () => {
     imgElement.style.transform = `scale(${currentScale / 100})`;
   }
 
-  function handleSmallerClick() {
+  function onHandleSmallerClick() {
     currentScale = Math.max(MIN_SCALE, currentScale - STEP_SCALE);
     updateScale();
   }
 
-  function handleBiggerClick() {
+  function onHandleBiggerClick() {
     currentScale = Math.min(MAX_SCALE, currentScale + STEP_SCALE);
     updateScale();
   }
 
-  scaleSmaller.addEventListener('click', handleSmallerClick);
-  scaleBigger.addEventListener('click', handleBiggerClick);
+  scaleSmaller.addEventListener('click', onHandleSmallerClick);
+  scaleBigger.addEventListener('click', onHandleBiggerClick);
 
   updateScale();
 
@@ -34,8 +34,8 @@ export const initScale = () => {
       updateScale();
     },
     destroy: () => {
-      scaleSmaller.removeEventListener('click', handleSmallerClick);
-      scaleBigger.removeEventListener('click', handleBiggerClick);
+      scaleSmaller.removeEventListener('click', onHandleSmallerClick);
+      scaleBigger.removeEventListener('click', onHandleBiggerClick);
     }
   };
 };

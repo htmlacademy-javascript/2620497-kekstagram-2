@@ -13,6 +13,13 @@ const hashtagInput = form.querySelector('.text__hashtags');
 const commentInput = form.querySelector('.text__description');
 const submitButton = form.querySelector('.img-upload__submit');
 
+const messageTemplates = {
+  success: document.querySelector('#success').content.querySelector('.success'),
+  error: document.querySelector('#error').content.querySelector('.error')
+};
+
+let pristine;
+
 const normalizeHashtags = (value) =>
   value.trim() ? value.trim().split(/\s+/).filter(Boolean) : [];
 
@@ -45,54 +52,57 @@ const checkDuplicateHashtags = (value) => {
   return uniqueHashtags.size === hashtags.length;
 };
 
-const showSuccessMessage = () => {
-  const template = document.querySelector('#success').content.querySelector('.success');
+const showStatusMessage = (type) => {
+  const template = messageTemplates[type];
+
   const message = template.cloneNode(true);
   document.body.appendChild(message);
 
-  const successButton = message.querySelector('.success__button');
-  successButton.addEventListener('click', () => message.remove());
+  const button = message.querySelector(`.${type}__button`);
+  const innerSelector = `.${type}__inner`;
 
-  document.addEventListener('keydown', (evt) => {
+  const onEsc = (evt) => {
     if (isEscapeKey(evt)) {
-      message.remove();
+      evt.preventDefault();
+      evt.stopPropagation();
+      removeMessage();
     }
-  }, { once: true });
+  };
+  const onClickOutside = (evt) => {
+    if (!evt.target.closest(innerSelector)) {
+      evt.preventDefault();
+      evt.stopPropagation();
+      removeMessage();
+    }
+  };
+  const onButtonClick = (evt) => {
+    evt.preventDefault();
+    evt.stopPropagation();
+    removeMessage();
+  };
+  function removeMessage () {
+    button.removeEventListener('click', onButtonClick);
+    document.removeEventListener('keydown', onEsc, true);
+    document.removeEventListener('click', onClickOutside, true);
+    message.remove();
+  }
 
-  document.addEventListener('click', (evt) => {
-    if (!evt.target.closest('.success__inner')) {
-      message.remove();
-    }
-  }, { once: true });
+  button.addEventListener('click', onButtonClick);
+  document.addEventListener('keydown', onEsc, { once: true, capture: true });
+  document.addEventListener('click', onClickOutside, { once: true, capture: true });
 };
 
 const validateComment = (value) =>
   !value || value.length <= MAX_UPLOAD_FORM_COMMENT_LENGTH;
 
-const showErrorMessage = () => {
-  const template = document.querySelector('#error').content.querySelector('.error');
-  const message = template.cloneNode(true);
-  document.body.appendChild(message);
-
-  const errorButton = message.querySelector('.error__button');
-  errorButton.addEventListener('click', () => message.remove());
-
-  document.addEventListener('keydown', (evt) => {
-    if (isEscapeKey(evt)) {
-      message.remove();
-    }
-  }, { once: true });
-
-  document.addEventListener('click', (evt) => {
-    if (!evt.target.closest('.error__inner')) {
-      message.remove();
-    }
-  }, { once: true });
+export const resetValidation = () => {
+  if (pristine) {
+    pristine.reset();
+  }
 };
 
-
 const initValidation = () => {
-  const pristine = new Pristine(form, {
+  pristine = new Pristine(form, {
     classTo: 'img-upload__field-wrapper',
     errorClass: 'img-upload__field-wrapper--error',
     errorTextParent: 'img-upload__field-wrapper',
@@ -155,14 +165,14 @@ const initValidation = () => {
     try {
       const formData = new FormData(form);
       await sendData(formData);
+      pristine.reset();
       onClosePhotoEditor();
-      showSuccessMessage();
+      showStatusMessage('success');
     } catch (error) {
-      showErrorMessage();
+      showStatusMessage('error');
     } finally {
       submitButton.disabled = false;
     }
-
   });
 };
 

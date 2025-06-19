@@ -1,6 +1,7 @@
 import {isEscapeKey} from './utils.js';
 import { initScale } from './scale.js';
 import { initEffects, resetEffects } from './effects.js';
+import { resetValidation } from './validation.js';
 
 const uploadInput = document.querySelector('.img-upload__input');
 const uploadOverlay = document.querySelector('.img-upload__overlay');
@@ -39,6 +40,7 @@ function onClosePhotoEditor () {
   scaleModule = null;
 
   form.reset();
+  resetValidation();
   uploadInput.value = '';
 
   if (previewImage.src.startsWith('blob:')) {
